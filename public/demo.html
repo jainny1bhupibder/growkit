@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>GrowKit: grow your Instagram safely</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F5F6FA;--panel:#fff;--panel2:#F0F2F8;--ink:#101528;--mute:#677089;--line:#E2E6F0;--acc:#FF5C4D;--acc2:#FFB020;--accink:#fff;--ok:#0E9F82;--grad:linear-gradient(135deg,#FF5C4D,#FFB020);--sh:0 8px 30px rgba(16,21,40,.07);
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0A0E1C;--panel:#121832;--panel2:#1A2142;--ink:#EDF0FA;--mute:#8E98B8;--line:#232B4D;--ok:#3DDBB4;--sh:0 10px 36px rgba(0,0,0,.35)}}
+:root[data-theme="dark"]{--bg:#0A0E1C;--panel:#121832;--panel2:#1A2142;--ink:#EDF0FA;--mute:#8E98B8;--line:#232B4D;--ok:#3DDBB4;--sh:0 10px 36px rgba(0,0,0,.35)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Manrope,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:Sora,system-ui,sans-serif;margin:0;letter-spacing:-.02em}
+h2{font-size:24px;margin-bottom:4px}h3{font-size:16px}
+.mute{color:var(--mute);font-size:14px}.sub{color:var(--mute);margin:0 0 18px}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+[hidden]{display:none!important}
+/* welcome */
+#welcome{max-width:980px;margin:0 auto;padding:28px 20px 60px}
+.logo{display:flex;align-items:center;gap:10px;font:800 20px Sora,sans-serif}
+.logo i{width:30px;height:30px;border-radius:9px;background:var(--grad);display:inline-block}
+.hero{padding:44px 0 28px;max-width:720px}
+.hero h1{font-size:clamp(34px,7vw,58px);line-height:1.04}
+.hero p{font-size:18px;color:var(--mute);margin:16px 0 24px;max-width:560px}
+.btn{border:0;background:var(--grad);color:#2A0D08;font:700 16px Manrope,sans-serif;padding:13px 22px;border-radius:12px;cursor:pointer;box-shadow:0 6px 20px rgba(255,92,77,.3)}
+.btn.sm{padding:9px 14px;font-size:14px;box-shadow:none}
+.btn.alt{background:var(--panel2);color:var(--ink);box-shadow:none}
+.trust{display:flex;gap:18px;flex-wrap:wrap;margin-top:18px;color:var(--mute);font-size:14px}
+.feats{display:grid;gap:12px;margin:36px 0}
+.plans{display:grid;gap:14px}
+.plan{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:var(--sh)}
+.plan.pop{border:2px solid var(--acc)}
+.plan b{font:800 34px Sora,sans-serif}.plan ul{padding-left:18px;margin:12px 0;color:var(--mute);font-size:15px}
+@media(min-width:760px){.feats{grid-template-columns:repeat(3,1fr)}.plans{grid-template-columns:repeat(3,1fr)}}
+/* shell */
+#shell{min-height:100vh}
+nav{position:fixed;left:0;right:0;bottom:0;z-index:5;background:var(--panel);border-top:1px solid var(--line);display:flex;padding-bottom:env(safe-area-inset-bottom,0px)}
+nav .logo,nav .side{display:none}
+nav button{flex:1;border:0;background:none;color:var(--mute);font:600 11px Manrope,sans-serif;padding:10px 2px 9px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px}
+nav svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+nav button[aria-selected="true"]{color:var(--acc)}
+main{max-width:860px;margin:0 auto;padding:18px 16px calc(100px + env(safe-area-inset-bottom,0px))}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.chip{background:var(--panel2);border-radius:999px;padding:5px 12px;font-size:13px;font-weight:700}
+.chip.hot{background:var(--grad);color:#2A0D08}
+@media(min-width:860px){
+ #shell{display:grid;grid-template-columns:230px 1fr}
+ nav{position:sticky;top:0;height:100vh;flex-direction:column;border-top:0;border-right:1px solid var(--line);padding:22px 14px;gap:4px}
+ nav .logo{display:flex;margin:0 6px 22px}
+ nav button{flex:none;flex-direction:row;font-size:15px;padding:11px 12px;border-radius:12px;gap:12px}
+ nav button[aria-selected="true"]{background:var(--panel2)}
+ nav .side{display:block;margin-top:auto;padding:12px;font-size:13px;color:var(--mute)}
+ main{padding:28px 32px 60px;width:100%}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:14px;box-shadow:var(--sh)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+@media(min-width:760px){.grid{grid-template-columns:repeat(4,1fr)}.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}}
+.stat{margin:0}.stat b{display:block;font:800 26px Sora,sans-serif;letter-spacing:-.02em}.stat span{font-size:13px;color:var(--mute)}
+.up{color:var(--ok);font-weight:700}
+.spark{display:block;width:100%;height:30px;margin-top:6px}.spark polyline{fill:none;stroke:var(--acc);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+label{display:block;font-size:13px;font-weight:700;margin:12px 0 5px;color:var(--mute)}
+input,select,textarea{width:100%;font:16px Manrope,sans-serif;color:var(--ink);background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:11px 12px}
+textarea{min-height:80px;resize:vertical}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:12px}
+.between{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.kw{background:var(--panel2);padding:2px 10px;border-radius:999px;font-weight:700;font-size:13px}
+.bubble{background:var(--panel2);border-radius:14px 14px 14px 4px;padding:10px 13px;margin-top:10px;font-size:15px}
+.task{display:flex;gap:12px;align-items:center;padding:10px 0;border-top:1px solid var(--line);cursor:pointer}
+.task:first-of-type{border-top:0}.task input{width:20px;height:20px;accent-color:var(--acc);flex:none}
+.task input:checked+span{text-decoration:line-through;color:var(--mute)}
+.bars{display:flex;align-items:flex-end;gap:10px;height:140px;margin-top:10px}
+.bars div{flex:1;background:var(--grad);border-radius:8px 8px 0 0;position:relative;min-height:6px}
+.bars em{position:absolute;top:-20px;left:0;right:0;text-align:center;font:700 12px Manrope;font-style:normal}
+.bars span{position:absolute;bottom:-22px;left:0;right:0;text-align:center;font-size:12px;color:var(--mute)}
+.sw{position:relative;width:48px;height:28px;flex:none}.sw input{opacity:0;position:absolute;inset:0;width:100%;height:100%;margin:0;cursor:pointer}
+.sw i{position:absolute;inset:0;background:var(--line);border-radius:999px;pointer-events:none}
+.sw i::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;background:#fff;border-radius:50%;transition:left .15s}
+.sw input:checked+i{background:var(--ok)}.sw input:checked+i::after{left:23px}
+.day{display:flex;gap:10px;align-items:center;margin-bottom:8px}.day b{width:38px;font-size:14px}
+.pipe{display:flex;gap:8px;margin-bottom:14px;overflow-x:auto}
+.pipe div{flex:1;min-width:92px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:10px 12px}
+.pipe b{display:block;font:800 18px Sora}.pipe span{font-size:12px;color:var(--mute)}
+.toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;font-size:14px;font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s;z-index:9}
+.toast.on{opacity:1}
+@media(prefers-reduced-motion:reduce){.toast,.sw i::after{transition:none}}
+</style></head><body>
+
+<div id="welcome">
+ <div class="logo"><i></i>GrowKit</div>
+ <div class="hero">
+  <h1>Grow your Instagram without risking your account.</h1>
+  <p>Turn comments into leads, reply faster in your own voice, plan content that works, and land brand deals. Only uses features Instagram allows.</p>
+  <button class="btn" id="connect">Connect Instagram (demo)</button>
+  <div class="trust"><span>7-day free trial</span><span>No passwords stored</span><span>Cancel anytime</span></div>
+ </div>
+ <div class="feats">
+  <div class="card"><h3>Comment-to-DM</h3><p class="mute">Followers comment a keyword and get your link or freebie in their DMs automatically.</p></div>
+  <div class="card"><h3>AI reply inbox</h3><p class="mute">Drafts replies in your voice. You approve each one with a tap.</p></div>
+  <div class="card"><h3>Brand deal CRM</h3><p class="mute">Pitch writer, pipeline tracker, and a live media kit.</p></div>
+ </div>
+ <h2>Simple pricing</h2><p class="sub">Start free. Upgrade when it pays for itself.</p>
+ <div class="plans">
+  <div class="plan"><h3>Free</h3><b>$0</b><ul><li>1 automation</li><li>Weekly insights</li><li>Pitch writer</li></ul></div>
+  <div class="plan pop"><h3>Pro</h3><b>$19<small class="mute">/mo</small></b><ul><li>Unlimited automations</li><li>AI reply inbox</li><li>Content engine and calendar</li></ul></div>
+  <div class="plan"><h3>Studio</h3><b>$49<small class="mute">/mo</small></b><ul><li>Everything in Pro</li><li>3 accounts</li><li>Media kit and deal CRM</li></ul></div>
+ </div>
+</div>
+
+<div id="shell" hidden>
+<nav id="tabs"></nav>
+<main>
+ <div class="top"><div><h2 id="ttl">Today</h2></div><span class="chip hot">Pro trial: 7 days left</span></div>
+
+ <section class="view" id="v0">
+  <div class="grid">
+   <div class="card stat"><b>12,480</b><span>Followers <i class="up">+312</i></span><svg class="spark" viewBox="0 0 100 30" preserveAspectRatio="none"><polyline points="0,24 17,22 34,18 50,19 67,12 84,9 100,4"/></svg></div>
+   <div class="card stat"><b>4.8%</b><span>Engagement <i class="up">+0.6</i></span><svg class="spark" viewBox="0 0 100 30" preserveAspectRatio="none"><polyline points="0,20 17,22 34,15 50,16 67,10 84,12 100,6"/></svg></div>
+   <div class="card stat"><b id="hDM">128</b><span>DMs sent <i class="up">+41</i></span><svg class="spark" viewBox="0 0 100 30" preserveAspectRatio="none"><polyline points="0,26 17,24 34,20 50,14 67,15 84,8 100,3"/></svg></div>
+   <div class="card stat"><b>$2,450</b><span>Deals in play</span><svg class="spark" viewBox="0 0 100 30" preserveAspectRatio="none"><polyline points="0,18 17,18 34,14 50,20 67,10 84,10 100,5"/></svg></div>
+  </div>
+  <div class="card"><h3>Do these next</h3><div style="margin-top:6px" id="tasks"></div></div>
+ </section>
+
+ <section class="view" id="v1" hidden>
+  <p class="sub">Followers comment a keyword. They get your DM. You collect leads.</p>
+  <div class="two"><div id="autos"></div>
+  <div><div class="card"><h3>New automation</h3>
+   <label for="aPost">Post or Reel</label><input id="aPost" placeholder="e.g. Banana bread Reel">
+   <label for="aKw">Trigger keyword</label><input id="aKw" placeholder="e.g. RECIPE">
+   <label for="aMsg">DM to send</label><textarea id="aMsg" placeholder="Here's the recipe: yoursite.com/recipe"></textarea>
+   <div class="row"><button class="btn sm" id="aAdd">Add automation</button></div></div>
+  <div class="card"><h3>Test it</h3><input id="sim" placeholder="Type a follower comment, e.g. send the GUIDE" style="margin-top:10px">
+   <div class="row"><button class="btn sm" id="simGo">Post comment</button></div><div id="simOut"></div></div></div></div>
+ </section>
+
+ <section class="view" id="v2" hidden>
+  <p class="sub">Drafts are written in your voice. Nothing sends until you approve.</p><div id="inbox"></div>
+ </section>
+
+ <section class="view" id="v3" hidden>
+  <p class="sub">Fresh ideas based on your niche and what already works for you.</p>
+  <div class="two"><div><div class="card"><label for="niche" style="margin-top:0">Your niche</label><input id="niche" value="vegan baking">
+   <div class="row"><button class="btn sm" id="gen">Generate this week's ideas</button></div></div><div id="ideas"></div></div>
+  <div class="card"><h3>Weekly calendar</h3><div style="margin-top:10px" id="cal"></div></div></div>
+ </section>
+
+ <section class="view" id="v4" hidden>
+  <div class="two"><div class="card"><h3>New followers per day</h3><div class="bars" id="bars"></div><div style="height:26px"></div></div>
+  <div><div class="card"><h3>Best times to post</h3><p class="mute" style="margin:6px 0 0">Tue and Thu, 6:30 to 8:00 pm. Reels posted then reach about 2x your average.</p></div>
+  <div class="card"><h3>Weekly summary</h3><p style="margin:8px 0"><b>What worked:</b> 15-second swap Reels earned 3x more saves than carousels.</p><p style="margin:8px 0"><b>Do next:</b> Post 2 more swap Reels and put a "SAVE" call to action in the first line.</p></div></div></div>
+ </section>
+
+ <section class="view" id="v5" hidden>
+  <div class="pipe" id="pipe"></div>
+  <div class="two"><div id="deals"></div>
+  <div><div class="card"><h3>Add a deal</h3><label for="dB">Brand</label><input id="dB"><label for="dV">Value ($)</label><input id="dV" inputmode="numeric"><div class="row"><button class="btn sm" id="dAdd">Add deal</button></div></div>
+  <div class="card"><h3>Media kit</h3><p class="mute" style="margin:6px 0 0">12,480 followers · 4.8% engagement · 72% women · ages 25 to 34 mostly. Live shareable link in the full version.</p></div></div></div>
+ </section>
+</main></div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(function(){
+function $(i){return document.getElementById(i)}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function toast(t){var e=$("toast");e.textContent=t;e.classList.add("on");setTimeout(function(){e.classList.remove("on")},1500)}
+var N=[["Home","Today","M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"],["Auto","Comment-to-DM","M13 2L4 14h7l-1 8 9-12h-7z"],["Inbox","Inbox","M4 4h16v12h-5l-3 3-3-3H4z"],["Create","Content engine","M4 20l4-1 11-11-3-3L5 16z"],["Stats","Insights","M4 20V10M10 20V4M16 20v-7M22 20H2"],["Deals","Brand deals","M3 8h18v12H3zM9 8V5h6v3"]];
+$("tabs").innerHTML='<div class="logo"><i></i>GrowKit</div>'+N.map(function(n,i){return '<button role="tab" data-i="'+i+'" aria-selected="'+(i===0)+'"><svg viewBox="0 0 24 24"><path d="'+n[2]+'"/></svg><span>'+n[0]+'</span></button>'}).join("")+'<div class="side">@maya.bakes<br>Pro trial</div>';
+$("tabs").onclick=function(e){var b=e.target.closest("button");if(!b)return;var i=+b.getAttribute("data-i");
+ N.forEach(function(_,k){$("v"+k).hidden=k!==i});$("ttl").textContent=N[i][1];
+ Array.prototype.forEach.call($("tabs").querySelectorAll("button"),function(x){x.setAttribute("aria-selected",x===b)});window.scrollTo(0,0)};
+$("connect").onclick=function(){$("welcome").hidden=true;$("shell").hidden=false;window.scrollTo(0,0)};
+
+var T=["Reply to 4 comments in Inbox","Post the oat milk swap Reel at 6:30 pm","Follow up with Oat Co. (pitched 6 days ago)"];
+$("tasks").innerHTML=T.map(function(t){return '<label class="task" style="margin:0;color:var(--ink);font-size:16px;font-weight:600"><input type="checkbox"><span>'+t+'</span></label>'}).join("");
+
+var autos=[{post:"Banana bread Reel",kw:"RECIPE",msg:"Here's the full recipe: mayabakes.com/banana-bread",on:true,n:64},{post:"Starter guide carousel",kw:"GUIDE",msg:"Your free starter guide: mayabakes.com/guide",on:true,n:41}],dms=128;
+function drawAutos(){$("autos").innerHTML=autos.map(function(a,i){return '<div class="card"><div class="between"><div><h3>'+esc(a.post)+'</h3><span class="mute">Comment <span class="kw">'+esc(a.kw)+'</span> · '+a.n+' DMs</span></div><label class="sw" style="margin:0"><input type="checkbox" data-t="'+i+'" aria-label="Turn on '+esc(a.post)+'"'+(a.on?" checked":"")+'><i></i></label></div><div class="bubble">'+esc(a.msg)+'</div></div>'}).join("")}
+$("autos").onchange=function(e){var i=e.target.getAttribute("data-t");if(i!==null)autos[i].on=e.target.checked};
+$("aAdd").onclick=function(){var p=$("aPost").value.trim(),k=$("aKw").value.trim().toUpperCase(),m=$("aMsg").value.trim();if(!p||!k||!m){toast("Fill in all three fields");return}
+ autos.unshift({post:p,kw:k,msg:m,on:true,n:0});$("aPost").value=$("aKw").value=$("aMsg").value="";drawAutos();toast("Automation added")};
+$("simGo").onclick=function(){var c=$("sim").value.trim().toUpperCase();if(!c){toast("Type a comment first");return}
+ var a=autos.filter(function(x){return x.on&&c.indexOf(x.kw)>-1})[0];
+ if(!a){$("simOut").innerHTML='<div class="bubble">No keyword match, so no automatic reply.</div>';return}
+ a.n++;dms++;$("hDM").textContent=dms;drawAutos();
+ $("simOut").innerHTML='<div class="bubble"><b>Public reply:</b> Sent! Check your DMs.</div><div class="bubble"><b>DM sent:</b> '+esc(a.msg)+'</div>'};
+
+var inbox=[{u:"@sam_eats",c:"Can I use almond milk instead?",d:"Yes! Almond works great. Add an extra tablespoon since it's thinner. Let me know how it turns out!",f:"Question"},{u:"@jordan.fit",c:"Do you ship your spice mix?",d:"Thanks for asking! It's launching soon. DM me and I'll add you to the first-order list.",f:"Buying intent"},{u:"@lena_k",c:"This looks amazing!!",d:"Thank you so much, Lena! Hope you try it this weekend.",f:"Fan"},{u:"@promo_deals_88",c:"Follow me for free followers",d:"Flagged as spam. Suggest hiding this comment.",f:"Spam"}];
+function drawInbox(){$("inbox").innerHTML=inbox.length?inbox.map(function(m,i){return '<div class="card"><div class="between"><b>'+esc(m.u)+'</b><span class="kw">'+m.f+'</span></div><p style="margin:6px 0">'+esc(m.c)+'</p><label for="d'+i+'">Draft reply</label><textarea id="d'+i+'">'+esc(m.d)+'</textarea><div class="row"><button class="btn sm" data-ok="'+i+'">'+(m.f==="Spam"?"Hide comment":"Approve and send")+'</button><button class="btn sm alt" data-skip="'+i+'">Skip</button></div></div>'}).join(""):'<div class="card mute">All caught up. New comments show up here.</div>'}
+$("inbox").onclick=function(e){var a=e.target.getAttribute("data-ok"),s=e.target.getAttribute("data-skip"),i=a!==null?a:s;if(i===null)return;inbox.splice(+i,1);drawInbox();toast(a!==null?"Done (demo)":"Skipped")};
+
+$("gen").onclick=function(){var n=$("niche").value.trim()||"your niche";
+ var t=[["Reel","3 mistakes beginners make in "+n,"Stop scrolling: you're doing this wrong"],["Reel","15-second swap: use this instead","This swap changed everything"],["Carousel","Starter checklist for "+n,"Save this before your first try"],["Reel","Behind the scenes of my week","What nobody shows you about "+n],["Story","Poll: which would you try first?","Vote and I'll post the winner"]];
+ $("ideas").innerHTML=t.map(function(x){return '<div class="card"><span class="kw">'+x[0]+'</span><h3 style="margin-top:8px">'+esc(x[1])+'</h3><p class="mute" style="margin:4px 0 0">Hook: "'+esc(x[2])+'"</p></div>'}).join("")};
+var D=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],pl={Tue:"Swap Reel, 6:30 pm",Thu:"Starter checklist carousel"};
+$("cal").innerHTML=D.map(function(d){return '<div class="day"><b>'+d+'</b><input aria-label="Plan for '+d+'" placeholder="Add a post" value="'+(pl[d]||"")+'"></div>'}).join("");
+
+var H=[["Mon",20],["Tue",65],["Wed",38],["Thu",80],["Fri",44],["Sat",30],["Sun",35]];
+$("bars").innerHTML=H.map(function(x){return '<div style="height:'+x[1]+'%"><em>+'+x[1]+'</em><span>'+x[0]+'</span></div>'}).join("");
+
+var deals=[{b:"Oat Co.",v:800,s:"Pitched"},{b:"Whisk & Co",v:450,s:"Negotiating"},{b:"Pantry Box",v:1200,s:"Booked"}],ST=["Prospect","Pitched","Negotiating","Booked","Passed"];
+function drawDeals(){$("deals").innerHTML=deals.map(function(d,i){return '<div class="card"><div class="between"><b>'+esc(d.b)+'</b><b>$'+d.v.toLocaleString("en-US")+'</b></div><select data-s="'+i+'" aria-label="Status for '+esc(d.b)+'" style="margin-top:10px">'+ST.map(function(s){return '<option'+(s===d.s?" selected":"")+'>'+s+'</option>'}).join("")+'</select></div>'}).join("");
+ $("pipe").innerHTML=ST.map(function(s){var g=deals.filter(function(d){return d.s===s});return '<div><b>$'+g.reduce(function(a,d){return a+d.v},0).toLocaleString("en-US")+'</b><span>'+s+' ('+g.length+')</span></div>'}).join("")}
+$("deals").onchange=function(e){var i=e.target.getAttribute("data-s");if(i!==null){deals[i].s=e.target.value;drawDeals()}};
+$("dAdd").onclick=function(){var b=$("dB").value.trim();if(!b){toast("Add a brand name");return}deals.unshift({b:b,v:parseFloat($("dV").value)||0,s:"Prospect"});$("dB").value=$("dV").value="";drawDeals()};
+
+drawAutos();drawInbox();drawDeals();$("gen").click();
+})();
+</script></body></html>

@@ -1,0 +1,52 @@
+generator client {
+  provider = "prisma-client-js"
+}
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               String       @id @default(cuid())
+  igUserId         String       @unique
+  igScopedId       String?
+  username         String
+  token            String
+  tokenExpires     DateTime
+  plan             String       @default("FREE")
+  stripeCustomerId String?
+  voice            String?
+  createdAt        DateTime     @default(now())
+  automations      Automation[]
+  handled          Handled[]
+}
+model Automation {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  keyword     String
+  mediaId     String?
+  dm          String
+  publicReply String?
+  active      Boolean  @default(true)
+  sent        Int      @default(0)
+  createdAt   DateTime @default(now())
+  logs        DmLog[]
+}
+model DmLog {
+  id           String     @id @default(cuid())
+  automationId String
+  automation   Automation @relation(fields: [automationId], references: [id], onDelete: Cascade)
+  commentId    String     @unique
+  fromId       String
+  createdAt    DateTime   @default(now())
+}
+
+model Handled {
+  commentId String   @id
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  action    String
+  createdAt DateTime @default(now())
+  @@index([userId])
+}
