@@ -80,3 +80,8 @@ textarea { min-height: 80px; resize: vertical; }
 .trust { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 18px; color: var(--mute); font-size: 14px; }
 .feats { display: grid; gap: 12px; margin: 36px 0; }
 @media (min-width: 760px) { .feats { grid-template-columns: repeat(3, 1fr); } }
+.prose { max-width: 720px; margin: 0 auto; padding: 28px 20px 60px; }
+.prose h1 { font-size: 34px; margin: 28px 0 6px; }
+.prose h2 { font-size: 20px; margin: 28px 0 6px; }
+.prose p { color: var(--mute); margin: 0 0 12px; }
+.prose .meta { font-size: 14px; }
